@@ -1,5 +1,7 @@
 let nCards = parseInt(prompt("Quantas cartas você deseja? (número par entre 4 e 14 cartas)"))//Numero de cartas
 const cardList = [] //Array com as cartas
+let nPlays = 0 //Número de jogadas
+let playsOk = 0 //Jogadas bem sucedidas
 
 //Função para popular o array com as cartas
 function listCards(){
@@ -38,18 +40,15 @@ function listCards(){
     }
 }
 
+//Gera um valor aleatório
 function comparator() { 
 	return Math.random() - 0.5; 
 }
 
+//Array que armazena as cartas a serem comparadas
 let cardsToComparate = []
 
-function resetCards(card){
-    const t = card.querySelector(".back-face-turned")
-    t.classList.remove("back-face-turned")
-    t.classList.add("back-face")
-    card.classList.remove("selected") 
-}
+//Função para comparar as cartas
 function comparing(element){
     cardsToComparate.push(element)
 
@@ -63,31 +62,32 @@ function comparing(element){
         setTimeout(()=>{
             if(images[0] !== images[1]){
                 for(let i=0; i<cardsToComparate.length; i++){
-                    const t = cardsToComparate[i].querySelector(".back-face-turned")
-                    t.classList.remove("back-face-turned")
-                    t.classList.add("back-face")
+                    const card = cardsToComparate[i].querySelector(".back-face-turned")
+                    card.classList.remove("back-face-turned")
+                    card.classList.add("back-face")
                     cardsToComparate[i].classList.remove("selected")
-                }  
-            }
+                }
+            }else{
+                playsOk++
+                if(playsOk === (nCards/2)){
+                    alert(`Você ganhou em ${nPlays} jogadas!`)
+                }
+             }
             cardsToComparate = []
         }, 1000)
     }
 }
 
+//Função de virar a carta
 function turnCard(element){
-    if(element.classList.contains("selected")){
-        const t = document.querySelector(".selected .back-face-turned")
-        t.classList.remove("back-face-turned")
-        t.classList.add("back-face")
-        element.classList.remove("selected")
-    }else{
-        element.classList.add("selected")
-        const t = document.querySelector(".selected .back-face")
-        t.classList.remove("back-face")
-        t.classList.add("back-face-turned")
+    nPlays++
 
-        comparing(element)
-    }  
+    element.classList.add("selected")
+    const card = document.querySelector(".selected .back-face")
+    card.classList.remove("back-face")
+    card.classList.add("back-face-turned")
+
+    comparing(element)
 }
 
 listCards()
