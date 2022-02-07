@@ -49,13 +49,15 @@ body{
 }
 .back-face {
     transform: rotateY(180deg);
-  }
-
-  .card:active .back-face {
+}
+.card .back-face-turned {
     transform: rotateY(0deg);
   }
+  /*.card:active .back-face {
+    transform: rotateY(0deg);
+  }*/
 
-  .card:active .front-face {
+  .card .front-face {
     transform: rotateY(-180deg);
     backface-visibility: visible;
   }

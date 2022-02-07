@@ -27,12 +27,12 @@ function listCards(){
     const list = document.querySelector(".cards-list")
     //Adicionando as cartas no HTML
     for(let i = 0; i<nCards; i++){
-        list.innerHTML += `<div class="card">
+        list.innerHTML += `<div class="card" onClicK="turnCard(this)" id="${cardList[i].figureNumber}">
                                 <div class="front-face face">
                                     <img src="images/front.png">
                                 <\div>
                                 <div class="back-face face">
-                                    <img src="images/${cardList[i].figure}">
+                                    <img class="img" src="images/${cardList[i].figure}">
                                 <\div>
                             </div>`
     }
@@ -40,6 +40,54 @@ function listCards(){
 
 function comparator() { 
 	return Math.random() - 0.5; 
+}
+
+let cardsToComparate = []
+
+function resetCards(card){
+    const t = card.querySelector(".back-face-turned")
+    t.classList.remove("back-face-turned")
+    t.classList.add("back-face")
+    card.classList.remove("selected") 
+}
+function comparing(element){
+    cardsToComparate.push(element)
+
+    if(cardsToComparate.length === 2){
+        let images = []
+        for(let i = 0; i < 2; i++){
+            const img = cardsToComparate[i].querySelector(".back-face-turned .img")
+            images.push(img.src)
+        }
+
+        setTimeout(()=>{
+            if(images[0] !== images[1]){
+                for(let i=0; i<cardsToComparate.length; i++){
+                    const t = cardsToComparate[i].querySelector(".back-face-turned")
+                    t.classList.remove("back-face-turned")
+                    t.classList.add("back-face")
+                    cardsToComparate[i].classList.remove("selected")
+                }  
+            }
+            cardsToComparate = []
+        }, 1000)
+    }
+}
+
+function turnCard(element){
+    if(element.classList.contains("selected")){
+        const t = document.querySelector(".selected .back-face-turned")
+        t.classList.remove("back-face-turned")
+        t.classList.add("back-face")
+        element.classList.remove("selected")
+    }else{
+        element.classList.add("selected")
+        const t = document.querySelector(".selected .back-face")
+        t.classList.remove("back-face")
+        t.classList.add("back-face-turned")
+
+        comparing(element)
+    }  
 }
 
 listCards()
