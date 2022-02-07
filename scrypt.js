@@ -29,11 +29,11 @@ function listCards(){
     const list = document.querySelector(".cards-list")
     //Adicionando as cartas no HTML
     for(let i = 0; i<nCards; i++){
-        list.innerHTML += `<div class="card" onClicK="turnCard(this)" id="${cardList[i].figureNumber}">
-                                <div class="front-face face">
+        list.innerHTML += `<div class="card" data-identifier="card" onClicK="turnCard(this)" id="${cardList[i].figureNumber}">
+                                <div class="front-face face" data-identifier="back-face">
                                     <img src="images/front.png">
                                 <\div>
-                                <div class="back-face face">
+                                <div class="back-face face" data-identifier="front-face">
                                     <img class="img" src="images/${cardList[i].figure}">
                                 <\div>
                             </div>`
